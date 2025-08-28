@@ -47,6 +47,7 @@
        src: content/index.j2
        dest: /usr/share/nginx/html/index.html
        force: yes
+      when: website_content.status == 200
 
     - name: start nginx service
       service:
