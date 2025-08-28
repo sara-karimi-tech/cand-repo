@@ -6,6 +6,7 @@
    SRC_NGINX_CONF: config/my.j2
    SVC_NAME: nginx
    NGINX_PORT: 80
+   URL: https://www.google.com
   tasks:
     - name: Add nginx repository
       yum_repository:
@@ -33,7 +34,14 @@
        src: "{{SRC_NGINX_CONF}}"
        dest: "{{NGINX_CONF}}"
        force: yes
-
+    - name: URI
+      uri:
+        url: "{{URL}}"
+        return_content: yes
+      register: website_content
+    - name: show website_content
+      debug:
+        var: website_content
     - name: copy nginx contents
       template:
        src: content/index.j2
@@ -44,3 +52,8 @@
       service:
        name: "{{SVC_NAME }}"
        state: restarted
+
+
+
+
+
